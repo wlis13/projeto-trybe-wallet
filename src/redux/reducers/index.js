@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import user from './user';
+import userReducer from './user';
 import wallet from './wallet';
 
 const reducer = combineReducers({
-  userReducer: user,
+  user: userReducer,
   walletReducer: wallet,
 });
 

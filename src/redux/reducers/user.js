@@ -1,10 +1,10 @@
 import { ACTION_USER } from '../actions';
 
-const user = {
+const userEmail = {
   email: '',
 };
 
-const userReducer = (state = user, action) => {
+const user = (state = userEmail, action) => {
   switch (action.type) {
   case ACTION_USER: {
     return {
@@ -18,4 +18,4 @@ const userReducer = (state = user, action) => {
   }
 };
 
-export default userReducer;
+export default user;

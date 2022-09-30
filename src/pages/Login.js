@@ -11,11 +11,14 @@ class Login extends React.Component {
   };
 
   handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+    const { name } = event.target;
+    this.setState({ [name]: event.target.value }, () => this.buttonValidation());
+  };
 
-    const magicNumber = 5;
+  buttonValidation = () => {
     const { senha, email } = this.state;
-    if (senha.length >= magicNumber && email.includes('@')) {
+    const magicNumber = 6;
+    if (senha.length >= magicNumber && email.includes('@') && email.includes('.com')) {
       this.setState({ desabilit: false });
     } else { this.setState({ desabilit: true }); }
   };
@@ -28,7 +31,6 @@ class Login extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     const { desabilit, email, senha } = this.state;
     return (
       <div>
