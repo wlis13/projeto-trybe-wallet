@@ -1,1 +1,15 @@
-// Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
+const wallet = {
+  currencies: [],
+  expenses: [],
+  editor: false,
+  idToEdit: 0,
+};
+
+const walletReducer = (state = wallet, action) => {
+  switch (action.type) {
+  default:
+    return state;
+  }
+};
+
+export default walletReducer;
