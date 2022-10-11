@@ -1,24 +1,25 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { userAction } from '../redux/actions';
+import { connect } from 'react-redux';
+import { saveUser } from '../redux/actions';
 
-class Login extends React.Component {
+class Login extends Component {
   state = {
-    desabilit: true,
     email: '',
     senha: '',
+    desabilit: true,
   };
 
-  handleChange = (event) => {
-    const { name } = event.target;
-    this.setState({ [name]: event.target.value }, () => this.buttonValidation());
+  handleChange = ({ target: { name, value } }) => {
+    this.setState({ [name]: value }, () => { this.confirmUser(); });
   };
 
-  buttonValidation = () => {
-    const { senha, email } = this.state;
+  confirmUser = () => {
+    const { email, senha } = this.state;
     const magicNumber = 6;
-    if (senha.length >= magicNumber && email.includes('@') && email.includes('.com')) {
+    const validUser = email.includes('@') && email.includes('.com');
+    const validSenha = senha.length >= magicNumber;
+    if (validUser && validSenha) {
       this.setState({ desabilit: false });
     } else { this.setState({ desabilit: true }); }
   };
@@ -26,7 +27,7 @@ class Login extends React.Component {
   handleClick = () => {
     const { email } = this.state;
     const { dispatch, history } = this.props;
-    dispatch(userAction(email));
+    dispatch(saveUser(email));
     history.push('/carteira');
   };
 
@@ -36,39 +37,36 @@ class Login extends React.Component {
       <div>
         <form>
           <label htmlFor="input-email">
-            Email:
             <input
               data-testid="email-input"
               id="input-email"
-              type="email"
-              placeholder="Email"
               name="email"
               value={ email }
+              type="text"
+              placeholder="digite seu email"
               onChange={ this.handleChange }
             />
           </label>
           <label htmlFor="input-senha">
-            Senha:
             <input
               data-testid="password-input"
               id="input-senha"
-              type="password"
-              placeholder="Senha"
               name="senha"
               value={ senha }
+              type="password"
+              placeholder="digite sua senha"
               onChange={ this.handleChange }
             />
           </label>
           <button
-            disabled={ desabilit }
             type="button"
+            disabled={ desabilit }
             onClick={ this.handleClick }
           >
             Entrar
           </button>
         </form>
       </div>
-
     );
   }
 }

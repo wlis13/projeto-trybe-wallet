@@ -1,13 +1,11 @@
-import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from '@redux-devtools/extension';
+import { applyMiddleware, legacy_createStore as createStore } from 'redux';
 import thunk from 'redux-thunk';
-import reducer from './reducers';
+import rootReducer from './reducers/index';
 
 const store = createStore(
-  reducer,
-  composeWithDevTools(
-    applyMiddleware(thunk),
-  ),
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunk)),
 );
 
 if (window.Cypress) {

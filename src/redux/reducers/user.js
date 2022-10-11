@@ -1,21 +1,20 @@
-import { ACTION_USER } from '../actions';
+import { SAVE_USER } from '../actions';
 
-const userEmail = {
+const INITIAL_STATE = {
   email: '',
 };
 
-const user = (state = userEmail, action) => {
+function user(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case ACTION_USER: {
+  case SAVE_USER: {
     return {
       ...state,
       email: action.email,
     };
   }
-
   default:
     return state;
   }
-};
+}
 
 export default user;

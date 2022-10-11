@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Header from '../components/Header';
+import Table from '../components/Table';
+
 import WalletForm from '../components/WalletForm';
 
-class Wallet extends React.Component {
+class Wallet extends Component {
+  state = {
+
+  };
+
   render() {
     return (
       <div>
-        wallet
+        <Header />
         <WalletForm />
+        <Table />
       </div>
     );
   }

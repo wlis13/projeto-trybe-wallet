@@ -1,223 +1,132 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { walletAction } from '../redux/actions';
-import '../style.css';
+import { connect } from 'react-redux';
+import { requisitionEveryThunk, requisitionThunk } from '../redux/actions';
 
 class WalletForm extends Component {
   state = {
-    initialValue: '',
-    endValue: '0.00',
-    asideValue: '',
-    tag: '',
-    displayTag: '',
+    value: '',
     description: '',
-    displayDescription: '',
-    payment: '',
-    displayPayment: '',
-    coin: '',
-    displayCoin: '',
-    valueCoinAside: '',
-    currencyState: [],
+    currency: 'USD',
+    method: 'Dinheiro',
+    tag: 'Alimentação',
+
   };
 
   async componentDidMount() {
     const { dispatch } = this.props;
-    const url = 'https://economia.awesomeapi.com.br/json/all';
-    const promisie = await fetch(url);
-    const response = await promisie.json();
-    const arrayResponse = Object.keys(response);
-    this.setState({ currencyState: arrayResponse });
-    dispatch(walletAction(arrayResponse));
+    dispatch(requisitionThunk());
   }
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChange = ({ target: { name, value } }) => {
+    this.setState({ [name]: value });
   };
 
-  handleClick = () => {
-    const { initialValue, tag, description, payment, coin } = this.state;
+  removeFieldWallet = () => {
     this.setState({
-      endValue: Number(initialValue).toFixed(2),
-      asideValue: Number(initialValue).toFixed(2),
-      displayTag: tag,
-      displayDescription: description,
-      displayPayment: payment,
-      displayCoin: coin,
+      value: '',
+      description: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
     });
+  };
 
-    switch (coin) {
-    case 'Dollar-comercial':
-      this.setState({ valueCoinAside: 'USD$' });
-      break;
-    case 'Real':
-      this.setState({ valueCoinAside: 'BRL$' });
-      break;
-    case 'Euro':
-      this.setState({ valueCoinAside: 'EUR$' });
-      break;
-    case 'Dollar-Australiano':
-      this.setState({ valueCoinAside: 'AUD$' });
-      break;
-    case 'Dollar-de-Singapura':
-      this.setState({ valueCoinAside: 'SGD$' });
-      break;
-    case 'Yuan-Renminbi':
-      this.setState({ valueCoinAside: 'CNY$' });
-      break;
-    case 'Dollar-canadense':
-      this.setState({ valueCoinAside: 'CAD$' });
-      break;
-    default:
-    }
+  handleAddExpenseStore = () => {
+    const { expenses, dispatch } = this.props;
+    const stateExpenses = {
+      ...this.state,
+      id: expenses.length,
+    };
+    this.removeFieldWallet();
+    dispatch(requisitionEveryThunk(stateExpenses));
   };
 
   render() {
-    const { email } = this.props;
-    const { initialValue, endValue, asideValue } = this.state;
-    const { displayTag, tag } = this.state;
-    const { description, displayDescription } = this.state;
-    const { payment, displayPayment } = this.state;
-    const { coin, displayCoin } = this.state;
-    const { valueCoinAside, currencyState } = this.state;
-    currencyState.splice(1, 1);
+    const { currencies, loading } = this.props;
+    const { value, currency, method, tag, description } = this.state;
     return (
-      <div className="section-wallet">
-        <header>
-          <h1>TRYBE</h1>
-          <p data-testid="email-field">{`Email: ${email}`}</p>
-          <p data-testid="total-field">{ `Despesa total: R$ ${endValue} `}</p>
-          <p data-testid="header-currency-field">BRL</p>
-        </header>
-        <section>
+      <div>
+        <form>
+          {loading && (<h1>Loading...</h1>)}
           <label htmlFor="input-value">
-            Valor:
             <input
-              data-testid="value-input"
-              name="initialValue"
-              value={ initialValue }
               id="input-value"
-              type="number"
+              type="text"
+              name="value"
+              value={ value }
+              data-testid="value-input"
+              placeholder="digite o valor"
               onChange={ this.handleChange }
             />
           </label>
-          <label htmlFor="coin-select">
-            Moeda:
-            <select
-              data-testid="currency-input"
-              id="coin-select"
-              name="coin"
-              value={ coin }
-              onChange={ this.handleChange }
-            >
-              {currencyState.map((itens, index) => (
-                <option key={ index }>{itens}</option>
-              ))}
-            </select>
-          </label>
-          <label htmlFor="payment-method">
-            Método de pagamento:
-            <select
-              data-testid="method-input"
-              id="payment-method"
-              name="payment"
-              value={ payment }
-              onChange={ this.handleChange }
-            >
-              <option value="Dinheiro">Dinheiro</option>
-              <option value="Cartão de crédito">Cartão de crédito</option>
-              <option value="Cartão de débito">Cartão de débito</option>
-            </select>
-          </label>
-          <label htmlFor="reason-for-spending">
-            Tag:
-            <select
-              data-testid="tag-input"
-              value={ tag }
-              name="tag"
-              onChange={ this.handleChange }
-              id="reason-for-spending"
-            >
-              <option value="Alimentação">Alimentação</option>
-              <option value="Lazer">Lazer</option>
-              <option value="Trabalho">Trabalho</option>
-              <option value="Transporte">Transporte</option>
-              <option value="Saúde">Saúde</option>
-            </select>
-          </label>
-          <label htmlFor="input-descrição">
-            Descrição:
+          <label htmlFor="input-descrisao">
             <input
-              data-testid="description-input"
-              id="input-descrição"
+              id="input-descrisao"
               type="text"
               name="description"
               value={ description }
+              data-testid="description-input"
+              placeholder="digite uma descrisão"
               onChange={ this.handleChange }
             />
           </label>
+          <select
+            name="currency"
+            value={ currency }
+            data-testid="currency-input"
+            onChange={ this.handleChange }
+          >
+            {currencies.map((currencys, index) => (
+              <option key={ index }>{ currencys }</option>
+            ))}
+          </select>
+          <select
+            name="method"
+            value={ method }
+            data-testid="method-input"
+            onChange={ this.handleChange }
+          >
+            <option velue="Dinheiro">Dinheiro</option>
+            <option value="Cartão de crédito">Cartão de crédito</option>
+            <option value="Cartão de débito">Cartão de débito</option>
+          </select>
+          <select
+            name="tag"
+            value={ tag }
+            data-testid="tag-input"
+            onChange={ this.handleChange }
+          >
+            <option value="Alimentação">Alimentação</option>
+            <option value="Lazer">Lazer</option>
+            <option value="Trabalho">Trabalho</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Saúde">Saúde</option>
+          </select>
           <button
             type="button"
-            onClick={ this.handleClick }
+            onClick={ this.handleAddExpenseStore }
           >
-            Adicionar Despesa
+            Adicionar despesa
           </button>
-        </section>
-
-        <section>
-
-          <aside>
-            <h5>Descrisão</h5>
-            <p>{displayDescription}</p>
-          </aside>
-
-          <aside>
-            <h5>tag</h5>
-            <p>{ displayTag }</p>
-          </aside>
-
-          <aside>
-            <h5>Método de pagamento</h5>
-            <p>{ displayPayment }</p>
-          </aside>
-
-          <aside>
-            <h5>Valor</h5>
-            <p>{ `${valueCoinAside} ${asideValue}` }</p>
-          </aside>
-
-          <aside>
-            <h5>Moeda</h5>
-            <p>{ displayCoin }</p>
-          </aside>
-
-          <aside>
-            <h5>Câmbio utilizado</h5>
-          </aside>
-
-          <aside>
-            <h5>Valor convertido</h5>
-          </aside>
-
-          <aside>
-            <h5>Moeda de conversão</h5>
-          </aside>
-
-        </section>
+        </form>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ user, wallet }) => ({
-  email: user.email,
-  currency: wallet.currencies,
-});
-
+function mapStateToProps({ wallet }) {
+  return {
+    currencies: wallet.currencies,
+    loading: wallet.loading,
+    expenses: wallet.expenses,
+  };
+}
 WalletForm.propTypes = {
-  email: PropTypes.string.isRequired,
-  currency: PropTypes.shape({}).isRequired,
   dispatch: PropTypes.func.isRequired,
+  currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  loading: PropTypes.bool.isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 export default connect(mapStateToProps)(WalletForm);
