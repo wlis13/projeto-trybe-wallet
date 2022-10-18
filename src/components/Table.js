@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { newList } from '../redux/actions';
+import { editInput, newList } from '../redux/actions';
 
 class Table extends Component {
   funcDelet = ({ target: { id } }) => {
     const { expenses, dispatch } = this.props;
     const newLis = expenses.filter((element) => Number(element.id) !== Number(id));
     dispatch(newList(newLis));
+  };
+
+  edit = ({ target: { id } }) => {
+    const { dispatch } = this.props;
+    dispatch(editInput(Number(id)));
   };
 
   render() {
@@ -59,6 +64,14 @@ class Table extends Component {
                       onClick={ this.funcDelet }
                     >
                       Deletar
+                    </button>
+                    <button
+                      data-testid="edit-btn"
+                      id={ id }
+                      type="button"
+                      onClick={ this.edit }
+                    >
+                      Editar
                     </button>
                   </td>
                 </tr>

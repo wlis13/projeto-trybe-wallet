@@ -4,6 +4,9 @@ const CURRENCIES_ERROR = 'CURRENCIES_ERROR';
 const CURRENCIES_LOADING = 'CURRENCIES_LOADING';
 const REQ_EVERY_SUCCESS = 'REQ_EVERY_SUCCESS';
 const SAVE_NEW_LIST = 'SAVE_NEW_LIST';
+const EDIT_INPUT = 'EDIT_INPUT';
+const NEGATIVE_EDIT = 'NEGATIVE_EDIT';
+const EDIT_FALSE = 'EDIT_FALSE';
 
 function saveUser(email) {
   return {
@@ -22,14 +25,9 @@ const requisitionError = (error) => ({
   error,
 });
 
-const requisitionLoading = () => ({
-  type: CURRENCIES_LOADING,
-});
-
 function requisitionThunk() {
   return async (dispatch) => {
     try {
-      dispatch(requisitionLoading());
       const url = 'https://economia.awesomeapi.com.br/json/all';
       const promise = await fetch(url);
       const response = await promise.json();
@@ -49,7 +47,6 @@ const reqEverySuccess = (reqExpenses) => ({
 function requisitionEveryThunk(stateValue) {
   return async (dispatch) => {
     try {
-      dispatch(requisitionLoading());
       const url = 'https://economia.awesomeapi.com.br/json/all';
       const promise = await fetch(url);
       const response = await promise.json();
@@ -73,6 +70,19 @@ function newList(payload) {
   };
 }
 
+const editInput = (payload) => ({
+  type: EDIT_INPUT,
+  payload,
+});
+
+const negativeEdit = () => ({
+  type: NEGATIVE_EDIT,
+});
+
+const editFalse = () => ({
+  type: EDIT_FALSE,
+});
+
 export {
   saveUser,
   SAVE_USER,
@@ -84,5 +94,11 @@ export {
   REQ_EVERY_SUCCESS,
   newList,
   SAVE_NEW_LIST,
+  editInput,
+  EDIT_INPUT,
+  negativeEdit,
+  NEGATIVE_EDIT,
+  EDIT_FALSE,
+  editFalse,
 
 };

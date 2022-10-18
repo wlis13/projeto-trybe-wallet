@@ -1,7 +1,9 @@
 import {
   CURRENCIES_ERROR,
-  CURRENCIES_LOADING,
   CURRENCIES_SUCCESS,
+  EDIT_FALSE,
+  EDIT_INPUT,
+  NEGATIVE_EDIT,
   REQ_EVERY_SUCCESS,
   SAVE_NEW_LIST,
 } from '../actions';
@@ -12,7 +14,8 @@ const INITIAL_WALLET = {
   editor: false,
   idToEdit: 0,
   error: false,
-  loading: false,
+  idEdit: '',
+  edit: false,
 };
 
 function wallet(state = INITIAL_WALLET, action) {
@@ -21,32 +24,41 @@ function wallet(state = INITIAL_WALLET, action) {
     return {
       ...state,
       currencies: action.currency,
-      loading: false,
-      error: false,
       shouldEdit: false,
+      editor: false,
     };
   case CURRENCIES_ERROR:
     return {
       ...state,
       error: true,
-      loading: false,
-    };
-  case CURRENCIES_LOADING:
-    return {
-      ...state,
-      loading: true,
     };
   case REQ_EVERY_SUCCESS:
     return {
       ...state,
       expenses: [...state.expenses, action.reqExpenses],
-      loading: false,
-      error: false,
+      editor: false,
     };
   case SAVE_NEW_LIST:
     return {
       ...state,
       expenses: action.payload,
+    };
+  case EDIT_INPUT:
+    return {
+      ...state,
+      edit: true,
+      editor: true,
+      idEdit: action.payload,
+    };
+  case NEGATIVE_EDIT:
+    return {
+      ...state,
+      editor: false,
+    };
+  case EDIT_FALSE:
+    return {
+      ...state,
+      edit: false,
     };
   default:
     return state;

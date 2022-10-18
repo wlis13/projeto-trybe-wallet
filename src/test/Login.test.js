@@ -47,19 +47,4 @@ describe('testa o componente Login', () => {
     const { user: { email } } = store.getState();
     expect(email).toBe(validEmail);
   });
-  it('testa se são salvos no estado global os valores currencies', () => {
-    renderWithRouterAndRedux(<App />);
-    const emailField = screen.getByTestId(/email-input/i);
-    const senhaField = screen.getByTestId(/password-input/i);
-    userEvent.type(emailField, validEmail);
-    userEvent.type(senhaField, validPassword);
-    const buttonLogin = screen.getByRole('button', { name: /Entrar/i });
-    userEvent.click(buttonLogin);
-    const inputValue = screen.getByTestId(/value-input/i);
-    userEvent.type(inputValue, /120/i);
-    const addButton = screen.getByRole('button', { name: /adicionar despesa/i });
-    userEvent.click(addButton);
-    const getTextValue = screen.getByTestId(/total-field/i);
-    expect(getTextValue).toHaveValue(/633.49/i);
-  });
 });
