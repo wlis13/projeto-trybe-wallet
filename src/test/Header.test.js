@@ -33,16 +33,18 @@ describe('testa o componente Header', () => {
     userEvent.type(password, validPassword);
     expect(buttonEntry).not.toBeDisabled();
 
+    const num = 5000;
     userEvent.click(buttonEntry);
     expect(history.location.pathname).toBe('/carteira');
     const inputValue = screen.getByPlaceholderText(/digite o valor/i);
     expect(inputValue).toBeInTheDocument();
     userEvent.type(inputValue, '150');
     expect(inputValue).toHaveValue('150');
-    userEvent.type(inputValue, '150');
     const buttonAdd = screen.getByRole('button', { name: /Adicionar despesas/i });
     userEvent.click(buttonAdd);
-    const expenseValue = await screen.findByText(/787.34/i);
+    const expenseValue = await screen.findByTestId(/total-field/i);
     expect(expenseValue).toBeInTheDocument();
+    const celula = await screen.findByRole('cell', { name: /alimentação/i });
+    expect(celula).toBeInTheDocument();
   });
 });
