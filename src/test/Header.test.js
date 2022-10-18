@@ -33,7 +33,6 @@ describe('testa o componente Header', () => {
     userEvent.type(password, validPassword);
     expect(buttonEntry).not.toBeDisabled();
 
-    const num = 5000;
     userEvent.click(buttonEntry);
     expect(history.location.pathname).toBe('/carteira');
     const inputValue = screen.getByPlaceholderText(/digite o valor/i);
