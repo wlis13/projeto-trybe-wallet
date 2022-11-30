@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { saveUser } from '../redux/actions';
 import '../style.css';
+import LoginImg from '../imgs/LoginImg.png';
 
 class Login extends Component {
   state = {
@@ -35,8 +36,11 @@ class Login extends Component {
   render() {
     const { desabilit, email, senha } = this.state;
     return (
-      <div>
+      <div className="body-login">
         <form className="container-form">
+          <span>
+            <img src={ LoginImg } alt="imagen-login" />
+          </span>
           <label htmlFor="input-email">
             <input
               data-testid="email-input"
