@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { saveUser } from '../redux/actions';
+import '../style.css';
 
 class Login extends Component {
   state = {
@@ -35,7 +36,7 @@ class Login extends Component {
     const { desabilit, email, senha } = this.state;
     return (
       <div>
-        <form>
+        <form className="container-form">
           <label htmlFor="input-email">
             <input
               data-testid="email-input"
