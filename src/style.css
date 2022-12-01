@@ -1,5 +1,7 @@
 body {
-  background-color: rgb(119, 117, 117);
+  background-image: url('./imgs/novoBackground.png');
+  background-repeat: no-repeat;
+  width: 100%;
 }
 
 .section-wallet {
