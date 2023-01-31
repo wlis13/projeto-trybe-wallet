@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { editInput, newList } from '../redux/actions';
+import '../style/table.css';
 
 class Table extends Component {
   funcDelet = ({ target: { id } }) => {
@@ -18,7 +19,7 @@ class Table extends Component {
   render() {
     const { expenses } = this.props;
     return (
-      <table>
+      <table className="container-table">
         <thead>
           <tr>
             <th>Descrição</th>
@@ -48,13 +49,13 @@ class Table extends Component {
               const convertedValue = Number(ask) * Number(value);
               return (
                 <tr key={ id }>
-                  <td>{description}</td>
-                  <td>{tag}</td>
-                  <td>{method}</td>
-                  <td>{Number(value).toFixed(2)}</td>
-                  <td>{name}</td>
-                  <td>{Number(ask).toFixed(2)}</td>
-                  <td>{convertedValue.toFixed(2)}</td>
+                  <td>{ description }</td>
+                  <td>{ tag }</td>
+                  <td>{ method }</td>
+                  <td>{ Number(value).toFixed(2) }</td>
+                  <td>{ name }</td>
+                  <td>{ Number(ask).toFixed(2) }</td>
+                  <td>{ convertedValue.toFixed(2) }</td>
                   <td>BRL</td>
                   <td>
                     <button

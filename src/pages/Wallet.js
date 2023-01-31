@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Table from '../components/Table';
+import '../style/wallet.css';
 
 import WalletForm from '../components/WalletForm';
 
@@ -12,7 +13,7 @@ class Wallet extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container-wallet">
         <Header />
         <WalletForm />
         <Table />
